@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chrhu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: chrhu <chrhu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:51:52 by chrhu             #+#    #+#             */
-/*   Updated: 2024/03/06 10:51:53 by chrhu            ###   ########.fr       */
+/*   Updated: 2024/10/15 15:34:52 by chrhu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ void	exec_cmd(t_pipex *data, char *cmd, char **envp)
 	if (data->path == NULL)
 	{
 		ft_free_tab(data->cmd_args);
+		close_fd(data, 2);
 		perror("\033[31mCommand not found, No such file or directory\033[0m");
 		exit(127);
 	}
 	if (execve(data->path, data->cmd_args, envp) < 0)
 	{
 		perror("\033[31mExecve fail\033[0m");
+		close_fd(data, 2);
 		ft_free_tab(data->cmd_args);
 		free(data->path);
 		exit(1);
@@ -74,6 +76,7 @@ void	first_child(t_pipex *data, char **envp)
 		exit(1);
 	}
 	close(data->fd[1]);
+	close_fd(data, 2);
 	exec_cmd(data, data->cmd1, envp);
 }
 

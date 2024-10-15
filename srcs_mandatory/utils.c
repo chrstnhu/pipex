@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                             :+:      :+:    :+:  */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chrhu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: chrhu <chrhu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:51:52 by chrhu             #+#    #+#             */
-/*   Updated: 2024/03/06 10:51:53 by chrhu            ###   ########.fr       */
+/*   Updated: 2024/10/15 15:37:12 by chrhu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,13 @@ void	init_pipex(t_pipex *data, int argc, char **argv)
 		perror("\033[31mInfile");
 		exit_msg("Outfile", 1);
 	}
-	if (data->infile == -1)
+	else if (data->infile == -1)
 	{
 		close_fd(data, 1);
+		close(data->outfile);
 		exit_msg("Infile", 0);
 	}
-	if (data->outfile == -1)
+	else if (data->outfile == -1)
 	{
 		close_fd(data, 1);
 		close(data->infile);
